@@ -50,12 +50,20 @@ using ::android::hardware::Return;
 using ::android::hardware::Void;
 
 Power::Power() :
-        mHintManager(HintManager::GetFromJSON("/vendor/etc/powerhint.json")),
-        mInteractionHandler(mHintManager),
-        mVRModeOn(false),
+        mHintManager(nullptr),
+        mInteractionHandler(nullptr),
         mSustainedPerfModeOn(false),
-        mEncoderModeOn(false) {
-    mInteractionHandler.Init();
+        mReady(false) {
+    mInitThread =
+            std::thread([this](){
+                            android::base::WaitForProperty(kPowerHalInitProp, "1");
+                            mHintManager = HintManager::GetFromJSON("/vendor/etc/powerhint.json");
+                            mInteractionHandler = std::make_unique<InteractionHandler>(mHintManager);
+                            mInteractionHandler->Init();
+                            // Now start to take powerhint
+                            mReady.store(true);
+                        });
+    mInitThread.detach();
 
     std::string state = android::base::GetProperty(kPowerHalStateProp, "");
     if (state == "VIDEO_ENCODE") {
@@ -92,7 +100,7 @@ Return<void> Power::setInteractive(bool /* interactive */)  {
 }
 
 Return<void> Power::powerHint(PowerHint_1_0 hint, int32_t data) {
-    if (!isSupportedGovernor()) {
+    if (!isSupportedGovernor() || !mReady) {
         return Void();
     }
 
@@ -101,7 +109,7 @@ Return<void> Power::powerHint(PowerHint_1_0 hint, int32_t data) {
             if (mVRModeOn || mSustainedPerfModeOn) {
                 ALOGV("%s: ignoring due to other active perf hints", __func__);
             } else {
-                //mInteractionHandler.Acquire(data);
+                mInteractionHandler->Acquire(data);
             }
             break;
         case PowerHint_1_0::VIDEO_ENCODE:
@@ -352,7 +360,7 @@ Return<void> Power::powerHintAsync(PowerHint_1_0 hint, int32_t data) {
 
 // Methods from ::android::hardware::power::V1_2::IPower follow.
 Return<void> Power::powerHintAsync_1_2(PowerHint_1_2 hint, int32_t data) {
-    if (!isSupportedGovernor()) {
+    if (!isSupportedGovernor() || !mReady) {
         return Void();
     }
 

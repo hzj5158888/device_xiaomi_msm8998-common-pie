@@ -237,6 +237,9 @@ on charger
     start vendor.thermal-engine
     start vendor.qcom-post-boot
 
+    # Enable PowerHAL hint processing
+    setprop vendor.powerhal.init 1
+
     setprop sys.usb.configfs 1
     setprop sys.usb.config adb
 
