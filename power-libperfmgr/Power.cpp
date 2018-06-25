@@ -386,18 +386,15 @@ Return<void> Power::powerHintAsync_1_2(PowerHint_1_2 hint, int32_t data) {
             ATRACE_END();
             break;
         case PowerHint_1_2::AUDIO_STREAMING:
-            ATRACE_BEGIN("audio_streaming");
-            if (data) {
-                // Hint until canceled
-                ATRACE_INT("audio_streaming_lock", 1);
-                mHintManager->DoHint("AUDIO_STREAMING");
-                ALOGD("AUDIO STREAMING ON");
-            } else {
-                ATRACE_INT("audio_streaming_lock", 0);
-                mHintManager->EndHint("AUDIO_STREAMING");
-                ALOGD("AUDIO STREAMING OFF");
+            if (!mSustainedPerfModeOn) {
+                if (data) {
+                    mHintManager->DoHint("AUDIO_STREAMING");
+                    ALOGD("AUDIO STREAMING ON");
+                } else {
+                    mHintManager->EndHint("AUDIO_STREAMING");
+                    ALOGD("AUDIO STREAMING OFF");
+                }
             }
-            ATRACE_END();
             break;
         case PowerHint_1_2::CAMERA_LAUNCH:
             ATRACE_BEGIN("camera_launch");
