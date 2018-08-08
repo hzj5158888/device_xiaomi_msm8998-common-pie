@@ -48,9 +48,7 @@ TARGET_KERNEL_SOURCE := kernel/xiaomi/msm8998
 TARGET_COMPILE_WITH_MSM_KERNEL := true
 #Clang
 TARGET_KERNEL_CLANG_COMPILE := true
-TARGET_KERNEL_CLANG_PATH := /root/aosp/prebuilts/clang/host/$(HOST_OS)-x86/clang-r328903/bin
-KBUILD_COMPILER_STRING := Android (4751641 based on r328903) clang version 7.0.2 (based on LLVM 7.0.2svn
-export KBUILD_COMPILER_STRING
+TARGET_KERNEL_CLANG_PATH := /root/aosp/prebuilts/clang/host/$(HOST_OS)-x86/clang-4691093/bin
 
 BOARD_KERNEL_CMDLINE := androidboot.console=ttyMSM0 androidboot.hardware=qcom
 BOARD_KERNEL_CMDLINE += user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3
@@ -141,7 +139,6 @@ TARGET_COPY_OUT_VENDOR := vendor
 
 # Power
 TARGET_TAP_TO_WAKE_NODE := "/proc/touchpanel/double_tap_enable"
-TARGET_USES_INTERACTION_BOOST := true
 
 # QCOM
 BOARD_USES_QCOM_HARDWARE := true

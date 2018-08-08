@@ -186,6 +186,20 @@ on property:sys.boot_completed=1
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/camera-daemon/cpus 0-3
 
+    # Create cgroup mount points for process groups
+    mkdir /dev/cpuctl
+    mount cgroup none /dev/cpuctl cpu
+    chown system system /dev/cpuctl
+    chmod 0660 /dev/cpuctl
+    chown system system /dev/cpuctl/tasks
+    chmod 0666 /dev/cpuctl/tasks
+    write /dev/cpuctl/cpu.rt_period_us 1000000
+    write /dev/cpuctl/cpu.rt_runtime_us 950000
+ 
+    mkdir /dev/cpuctl/bg_non_interactive
+    chown system system /dev/cpuctl/bg_non_interactive/tasks
+    chmod 0666 /dev/cpuctl/bg_non_interactive/tasks
+
     start qcom-post-boot
 
 on charger
