@@ -80,6 +80,7 @@ AUDIO_FEATURE_ENABLED_COMPRESS_VOIP := false
 USE_XML_AUDIO_POLICY_CONF := 1
 
 # Bluetooth
+QCOM_BOARD_PLATFORMS += msm8998
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/xiaomi/msm8998-common/bluetooth
 BOARD_HAVE_BLUETOOTH_QCOM := true
 
@@ -113,14 +114,15 @@ TARGET_HW_DISK_ENCRYPTION := true
 TARGET_FS_CONFIG_GEN := device/xiaomi/msm8998-common/config.fs
 
 # GPS
-USE_DEVICE_SPECIFIC_GPS := true
+TARGET_NO_RPC := true
+BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := default
+BOARD_VENDOR_QCOM_LOC_PDK_FEATURE_SET := true
 
 # HIDL
 DEVICE_MANIFEST_FILE := device/xiaomi/msm8998-common/manifest.xml
 DEVICE_MATRIX_FILE := device/xiaomi/msm8998-common/compatibility_matrix.xml
-
-# Init
-TARGET_PLATFORM_DEVICE_BASE := /devices/soc/
+#DEVICE_FRAMEWORK_MANIFEST_FILE := device/xiaomi/msm8998-common/framework_manifest.xml
+#DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := device/xiaomi/msm8998-common/device_framework_matrix.xml
 
 # NFC
 BOARD_NFC_CHIPSET := pn553

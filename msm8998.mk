@@ -95,10 +95,10 @@ PRODUCT_PACKAGES += \
     libvolumelistener \
 
 PRODUCT_PACKAGES += \
-    android.hardware.audio.effect@2.0-impl \
-    android.hardware.audio@2.0-impl \
-    android.hardware.audio@2.0-service \
-    android.hardware.soundtrigger@2.0-impl
+    android.hardware.audio@4.0-impl:32 \
+    android.hardware.audio.effect@4.0-impl:32 \
+    android.hardware.soundtrigger@2.1-impl:32 \
+    android.hardware.audio@2.0-service
 
 PRODUCT_PACKAGES += \
     tinymix
@@ -130,7 +130,7 @@ PRODUCT_PACKAGES += \
     Camera2
 
 PRODUCT_PACKAGES += \
-    android.hardware.camera.provider@2.4-impl \
+    android.hardware.camera.provider@2.4-impl:32 \
     android.hardware.camera.provider@2.4-service \
     vendor.qti.hardware.camera.device@1.0 \
     vendor.qti.hardware.camera.device@1.0_vendor \
@@ -142,6 +142,7 @@ PRODUCT_PACKAGES += \
     libbt-vendor
 
 PRODUCT_PACKAGES += \
+    android.hardware.bluetooth@1.0-impl:64 \
     android.hardware.bluetooth@1.0-service
 
 # Connectivity Engine support (CNE)
@@ -165,14 +166,21 @@ PRODUCT_PACKAGES += \
     libtinyxml
 
 PRODUCT_PACKAGES += \
-    android.hardware.graphics.composer@2.1-impl \
+    android.hardware.graphics.composer@2.1-impl:64 \
     android.hardware.graphics.composer@2.1-service \
-    android.hardware.graphics.allocator@2.0-impl \
+    android.hardware.graphics.allocator@2.0-impl:64 \
     android.hardware.graphics.allocator@2.0-service \
     android.hardware.graphics.mapper@2.0-impl \
     android.hardware.memtrack@1.0-impl \
     android.hardware.memtrack@1.0-service \
     android.hardware.renderscript@1.0-impl
+
+# RIL
+PRODUCT_PACKAGES += \
+    android.hardware.radio@1.0 \
+    android.hardware.radio@1.1 \
+    android.hardware.radio.deprecated@1.0 \
+    android.hardware.radio@1.0-service
 
 # Demo
 PRODUCT_PACKAGES += \
@@ -181,11 +189,12 @@ PRODUCT_PACKAGES += \
 
 # DRM
 PRODUCT_PACKAGES += \
-    android.hardware.drm@1.0-impl \
+    android.hardware.drm@1.0-impl:32 \
     android.hardware.drm@1.0-service
 
 # Fingerprint sensor
 PRODUCT_PACKAGES += \
+    android.hardware.biometrics.fingerprint@2.1 \
     android.hardware.biometrics.fingerprint@2.1-service.xiaomi_msm8998
 
 # For config.fs
@@ -200,8 +209,10 @@ PRODUCT_PACKAGES += \
 # GPS
 PRODUCT_PACKAGES += \
     libcurl \
+    libgps.utils \
     libgnss \
     libgnsspps \
+    liblocation_api
 
 PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-impl-qti \
@@ -217,8 +228,8 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@1.0-impl \
-    android.hardware.health@1.0-service
+    android.hardware.health@2.0-impl \
+    android.hardware.health@2.0-service
 
 # HIDL
 PRODUCT_PACKAGES += \
@@ -254,7 +265,7 @@ PRODUCT_COPY_FILES += \
 
 # Keymaster
 PRODUCT_PACKAGES += \
-    android.hardware.keymaster@3.0-impl \
+    android.hardware.keymaster@3.0-impl:64 \
     android.hardware.keymaster@3.0-service
 
 # Lights
@@ -281,13 +292,11 @@ PRODUCT_PACKAGES += \
 # NFC
 PRODUCT_PACKAGES += \
     com.android.nfc_extras \
-    nfc_nci.msm8998 \
     NfcNci \
     Tag
 
 PRODUCT_PACKAGES += \
-    android.hardware.nfc@1.0-impl \
-    android.hardware.nfc@1.0-service
+    android.hardware.nfc@1.1-service
 
 # NFC
 PRODUCT_COPY_FILES += \
@@ -364,7 +373,7 @@ PRODUCT_PACKAGES += \
     sensors.msm8998
 
 PRODUCT_PACKAGES += \
-    android.hardware.sensors@1.0-impl \
+    android.hardware.sensors@1.0-impl:64 \
     android.hardware.sensors@1.0-service
 
 # Telephony
@@ -381,6 +390,7 @@ PRODUCT_PACKAGES += \
 
 # USB
 PRODUCT_PACKAGES += \
+    android.hardware.usb@1.0 \
     android.hardware.usb@1.0-service
 
 # Vibrator
@@ -404,13 +414,24 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml \
+    liboffloadhal \
+    libipanat \
+    libnfnetlink \
+    libnetfilter_conntrack \
     libwpa_client \
     hostapd \
+    hostapd_cli \
     readmac \
+    libnl_2 \
     wpa_supplicant \
     wpa_supplicant.conf
 
 PRODUCT_PACKAGES += \
+    wificond \
+    wifilogd \
+    android.hardware.wifi@1.0 \
+    android.hardware.wifi@1.1 \
+    android.hardware.wifi@1.2 \
     android.hardware.wifi@1.0-service
 
 PRODUCT_COPY_FILES += \
