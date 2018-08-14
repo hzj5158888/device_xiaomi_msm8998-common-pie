@@ -51,7 +51,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.audio.tunnel.encode=false \
     vendor.audio.use.sw.alac.decoder=true \
     vendor.audio.use.sw.ape.decoder=true \
-    vendor.audio_hal.period_size=192
+    vendor.audio_hal.period_size=192 \
+    audio.snd_card.open.retries=50
 
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
@@ -68,6 +69,35 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,com.miui.cit,org.lineageos.snap \
     vidc.enc.dcvs.extra-buff-count=2
 
+# camera gyro and laser sensor
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.gyro.android=20 \
+    persist.camera.tof.direct=1 \
+    persist.camera.max.previewfps=60 \
+    persist.camera.sensor.hdr=2
+
+# camera TNR controls
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.tnr.video=1 \
+
+# Enable camera EIS3.0
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.is_type=5 \
+    persist.camera.gzoom.at=0 \
+    persist.camera.llv.fuse=2
+
+# Enable camera ae saturation stats
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.saturationext=1
+
+# Enable CameraHAL perfd usage
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.perfd.enable=false
+
+# Enable Gcam FD Ensemble
+PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.gcam.fd.ensemble=1
+
 # CNE
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.cne.feature=1
@@ -81,6 +111,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
     ro.opengles.version=196610 \
     ro.sf.lcd_density=480 \
     vendor.display.enable_default_color_mode=1
+
+# b/73640835
+PRODUCT_PROPERTY_OVERRIDES += \
+    sdm.debug.rotator_downscale=1
 
 # Disable buffer age (b/74534157)
 PRODUCT_PROPERTY_OVERRIDES += \

@@ -69,11 +69,18 @@ on post-fs-data
     mkdir /data/vendor/ramdump/bluetooth 0770 bluetooth bluetooth
 
     # Create the directories used by the Wireless subsystem
-    mkdir /data/vendor/wifi 0770 wifi wifi
-    mkdir /data/vendor/wifi/sockets 0770 wifi wifi
-    mkdir /data/vendor/wifi/hostapd 0770 wifi wifi
-    mkdir /data/vendor/wifi/hostapd/ctrl 0770 wifi wifi
-    mkdir /data/vendor/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/vendor/wifi 0771 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+    chown dhcp dhcp /data/misc/dhcp
+
+    # copy wpa_supplicant.conf
+    copy /vendor/etc/wifi/wpa_supplicant.conf /data/vendor/wifi/wpa/wpa_supplicant.conf
+    chown wifi system /data/vendor/wifi/wpa/wpa_supplicant.conf
+    chmod 0660 /data/vendor/wifi/wpa/wpa_supplicant.conf
 
     # Create netmgr log dir
     mkdir /data/vendor/netmgr 0770 radio radio
@@ -89,9 +96,16 @@ on post-fs-data
     mkdir /data/dpm/nsrm 0771 system system
 
     # Create directory used by audio subsystem
-    mkdir /data/vendor/misc/audio 0770 audio audio
-    mkdir /data/vendor/misc/audio/acdbdata 0770 media audio
-    mkdir /data/vendor/misc/audio/acdbdata/delta 0770 media audio
+    #mkdir /data/vendor/misc/audio 0770 audio audio
+    #mkdir /data/vendor/misc/audio/acdbdata 0770 media audio
+    #mkdir /data/vendor/misc/audio/acdbdata/delta 0770 media audio
+
+    # Create directory used by audio subsystem
+    mkdir /data/vendor/audio 0770 audio audio
+
+    # Create directory for audio delta files
+    mkdir /data/vendor/audio/acdbdata 0770 media audio
+    mkdir /data/vendor/audio/acdbdata/delta 0770 media audio
 
     # Create directory for radio
     mkdir /data/vendor/radio 0770 system radio
@@ -107,6 +121,9 @@ on post-fs-data
     chmod 0664 /persist/sensors/sensors_settings
     chown system system /persist/PRSensorData.txt
     chmod 0600 /persist/PRSensorData.txt
+
+    mkdir /data/vendor/sensors 0770
+    chown system system /data/vendor/sensors
 
     setprop vold.post_fs_data_done 1
 
@@ -184,6 +201,8 @@ on boot
     # Create NETMGR daemon socket area
     mkdir /dev/socket/netmgr 0750 radio radio
 
+    setprop wifi.interface wlan0
+
     # KeyDisabler permissions
     chown system system /sys/devices/soc/soc:fingerprint_fpc/enable_key_events
     chown system system /sys/devices/soc/soc:fingerprint_goodix/enable_key_events
@@ -216,59 +235,62 @@ on boot
     # Wifi firmware reload path
     chown wifi wifi /sys/module/wlan/parameters/fwpath
 
+    # default country code
+    setprop ro.boot.wificountrycode 00
+
 on property:sys.boot_completed=1
     # Used by sound trigger HAL
     chown media audio /sys/kernel/wdsp0/boot
     chown media audio /sys/kernel/wcd_cpe0/fw_name
 
-service cnd /vendor/bin/cnd
+service vendor.cnd /vendor/bin/cnd
     class main
-    user system
+    user radio
     group system wifi inet radio wakelock net_admin
     writepid /dev/cpuset/system-background/tasks
 
-service dpmQmiMgr /vendor/bin/dpmQmiMgr
+service vendor.dpmQmiMgr /vendor/bin/dpmQmiMgr
     class main
     user system
     group system
 
-service perfd /vendor/bin/perfd
+service vendor.perfd /vendor/bin/perfd
     class main
     user root
     group root readproc system
     socket perfd seqpacket 0666 root system
     disabled
 
-service irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
+service vendor.irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
     user root
     oneshot
     writepid /dev/cpuset/system-background/tasks
 
-service rmt_storage /vendor/bin/rmt_storage
+service vendor.rmt_storage /vendor/bin/rmt_storage
     class core
     user root
     shutdown critical
     ioprio rt 0
 
-service tftp_server /vendor/bin/tftp_server
+service vendor.tftp_server /vendor/bin/tftp_server
     class core
     user root
 
-on property:wc_transport.start_hci=true
-    start start_hci_filter
-
-on property:wc_transport.start_hci=false
-    stop start_hci_filter
-
-service start_hci_filter /vendor/bin/wcnss_filter
+service vendor.start_hci_filter /vendor/bin/wcnss_filter
     class late_start
     user bluetooth
     group bluetooth diag system wakelock
     disabled
     writepid /dev/cpuset/system-background/tasks
 
-service atfwd /vendor/bin/ATFWD-daemon
+on property:wc_transport.start_hci=true
+    start vendor.start_hci_filter
+
+on property:wc_transport.start_hci=false
+    stop vendor.start_hci_filter
+
+service vendor.atfwd /vendor/bin/ATFWD-daemon
     class late_start
     user system
     group system radio
@@ -280,23 +302,23 @@ on property:sys.uidcpupower=*
 on property:sys.uidcpupower=0
     write /proc/uid_cpupower/enable 0
 
-service netmgrd /vendor/bin/netmgrd
+service vendor.netmgrd /vendor/bin/netmgrd
     class main
     writepid /dev/cpuset/system-background/tasks
 
-service ipacm /vendor/bin/ipacm
+service vendor.ipacm /vendor/bin/ipacm
     class main
     user radio
     group radio inet
     writepid /dev/cpuset/system-background/tasks
 
-service qti /vendor/bin/qti
+service vendor.qti /vendor/bin/qti
     class main
     user radio
     group radio net_raw diag usb net_admin
     writepid /dev/cpuset/system-background/tasks
 
-service sensors /vendor/bin/sensors.qcom
+service vendor.sensors /vendor/bin/sensors.qcom
     class main
     user root
     group root
@@ -317,7 +339,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant \
     oneshot
     writepid /dev/cpuset/system-background/tasks
 
-service cnss-daemon /vendor/bin/cnss-daemon -n -l
+service vendor.cnss-daemon /vendor/bin/cnss-daemon -n -l
     class late_start
     user system
     group system inet net_admin wifi
@@ -325,30 +347,26 @@ service cnss-daemon /vendor/bin/cnss-daemon -n -l
     writepid /dev/cpuset/system-background/tasks
 
 on property:sys.powerctl=*
-    stop cnss-daemon
+    stop vendor.cnss-daemon
 
-service loc_launcher /vendor/bin/loc_launcher
+service vendor.loc_launcher /vendor/bin/loc_launcher
     # loc_launcher will start as root and set its uid to gps
     class late_start
     group gps inet diag wifi
     writepid /dev/cpuset/system-background/tasks
 
-service qcom-sh /vendor/bin/init.qcom.sh
+service vendor.qcom-sh /vendor/bin/init.qcom.sh
     class late_start
     user root
     oneshot
 
-service qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
+service vendor.qcom-post-boot /vendor/bin/init.qcom.post_boot.sh
     class late_start
     user root
     disabled
     oneshot
 
-# qcom-power triggers this property
-on property:sys.post_boot.parsed=1
-    start perfd
-
-service panel-info /vendor/bin/init.panel_info.sh
+service vendor.panel-info /vendor/bin/init.panel_info.sh
     class core
     user root
     oneshot
@@ -361,17 +379,17 @@ service ril-daemon2 /vendor/bin/hw/rild -c 2
     group radio cache inet misc audio sdcard_r sdcard_rw diag oem_2901 log
     capabilities BLOCK_SUSPEND NET_ADMIN NET_RAW
 
-service charger /charger
+service vendor.charger /charger
     class charger
     group system graphics
-    seclabel u:r:charger:s0
+    #seclabel u:r:charger:s0
 
-service msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
+service vendor.msm_irqbalance /vendor/bin/msm_irqbalance -f /vendor/etc/msm_irqbalance.conf
     class core
     user root
     group root
 
-service time_daemon /vendor/bin/time_daemon
+service vendor.time_daemon /vendor/bin/time_daemon
     class main
     user root
     group root

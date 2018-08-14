@@ -17,12 +17,22 @@
 # Treble
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_n_mr1.mk)
 
+# Get kernel-headers
+#$(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
+
+MSM_VIDC_TARGET_LIST := msm8998
+MASTER_SIDE_CP_TARGET_LIST := msm8998
+
+# Hardware
+SRC_MEDIA_HAL_DIR := hardware/qcom/media/msm8998
+SRC_DISPLAY_HAL_DIR := hardware/qcom/display/msm8998
+SRC_CAMERA_HAL_DIR := hardware/qcom/camera/msm8998
+
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay
 
-PRODUCT_ENFORCE_RRO_TARGETS := \
-    framework-res
+PRODUCT_ENFORCE_RRO_TARGETS := framework-res
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -86,13 +96,14 @@ PRODUCT_PACKAGES += \
     audio.primary.msm8998 \
     audio.r_submix.default \
     audio.usb.default \
+    audio.hearing_aid.default
 
 PRODUCT_PACKAGES += \
     libaudio-resampler \
     libqcompostprocbundle \
     libqcomvisualizer \
     libqcomvoiceprocessing \
-    libvolumelistener \
+    libvolumelistener
 
 PRODUCT_PACKAGES += \
     android.hardware.audio@4.0-impl:32 \
@@ -112,38 +123,50 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/audio/sound_trigger_platform_info.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sound_trigger_platform_info.xml
 
 PRODUCT_COPY_FILES += \
-    $(TOPDIR)frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \
-    $(TOPDIR)frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
-    $(TOPDIR)frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml
+    frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/r_submix_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/r_submix_audio_policy_configuration.xml \
+    frameworks/av/services/audiopolicy/config/audio_policy_volumes.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes.xml \
+    frameworks/av/services/audiopolicy/config/default_volume_tables.xml:$(TARGET_COPY_OUT_VENDOR)/etc/default_volume_tables.xml \
+    frameworks/av/services/audiopolicy/config/hearing_aid_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/hearing_aid_audio_policy_configuration.xml
 
 # ANT+
-#PRODUCT_PACKAGES += \
-    #AntHalService \
-    #com.dsi.ant.antradio_library \
-    #libantradio
-
-#PRODUCT_COPY_FILES += \
-#external/ant-wireless/antradio-library/com.dsi.ant.antradio_library.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/com.dsi.ant.antradio_library.xml
-
-# Camera
 PRODUCT_PACKAGES += \
-    Camera2
+    AntHalService
+
+# OMX
+PRODUCT_PACKAGES += \
+    libc2dcolorconvert \
+    libmm-omxcore \
+    libOmxAacEnc \
+    libOmxAmrEnc \
+    libOmxCore \
+    libOmxEvrcEnc \
+    libOmxQcelp13Enc \
+    libOmxVdec \
+    libOmxVenc \
+    libstagefrighthw
 
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl:32 \
     android.hardware.camera.provider@2.4-service \
-    vendor.qti.hardware.camera.device@1.0 \
-    vendor.qti.hardware.camera.device@1.0_vendor \
-    camera.device@1.0-impl \
-    camera.device@3.2-impl
+    camera.device@3.2-impl \
+    camera.msm8998 \
+    libqomx_core \
+    libmmjpeg_interface \
+    libmmcamera_interface
+
+PRODUCT_PACKAGES += \
+    libicuuc.vendor
 
 # Bluetooth
 PRODUCT_PACKAGES += \
     libbt-vendor
 
 PRODUCT_PACKAGES += \
-    android.hardware.bluetooth@1.0-impl:64 \
-    android.hardware.bluetooth@1.0-service
+    android.hardware.bluetooth@1.0-impl-qti:64 \
+    android.hardware.bluetooth@1.0-service-qti \
+    android.hardware.bluetooth@1.0-service-qti.rc
 
 # Connectivity Engine support (CNE)
 PRODUCT_PACKAGES += \
@@ -175,13 +198,6 @@ PRODUCT_PACKAGES += \
     android.hardware.memtrack@1.0-service \
     android.hardware.renderscript@1.0-impl
 
-# RIL
-PRODUCT_PACKAGES += \
-    android.hardware.radio@1.0 \
-    android.hardware.radio@1.1 \
-    android.hardware.radio.deprecated@1.0 \
-    android.hardware.radio@1.0-service
-
 # Demo
 PRODUCT_PACKAGES += \
     Email \
@@ -208,7 +224,6 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    libcurl \
     libgps.utils \
     libgnss \
     libgnsspps \
@@ -233,6 +248,7 @@ PRODUCT_PACKAGES += \
 
 # HIDL
 PRODUCT_PACKAGES += \
+    android.hidl.base@1.0 \
     android.hidl.base@1.0_system \
     android.hidl.manager@1.0 \
     android.hidl.manager@1.0_system
@@ -249,11 +265,6 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/keylayout/uinput-fpc.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-fpc.kl \
     $(LOCAL_PATH)/configs/keylayout/uinput-goodix.kl:$(TARGET_COPY_OUT_VENDOR)/usr/keylayout/uinput-goodix.kl
-
-# IPv6
-PRODUCT_PACKAGES += \
-    ebtables \
-    ethertypes
 
 # IRQ
 PRODUCT_COPY_FILES += \
@@ -300,20 +311,8 @@ PRODUCT_PACKAGES += \
 
 # NFC
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/nfc/libnfc-brcm.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-brcm.conf \
+    $(LOCAL_PATH)/configs/nfc/libnfc-nci.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nci.conf \
     $(LOCAL_PATH)/configs/nfc/libnfc-nxp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/libnfc-nxp.conf
-
-# OMX
-PRODUCT_PACKAGES += \
-    libc2dcolorconvert \
-    libOmxAacEnc \
-    libOmxAmrEnc \
-    libOmxCore \
-    libOmxEvrcEnc \
-    libOmxQcelp13Enc \
-    libOmxVdec \
-    libOmxVenc \
-    libstagefrighthw
 
 # Power
 PRODUCT_PACKAGES += \
@@ -324,8 +323,8 @@ include $(LOCAL_PATH)/vendor_prop.mk
 
 # QCOM
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/privapp-permissions-qti.xml \
-    $(LOCAL_PATH)/configs/qti_whitelist.xml:$(TARGET_COPY_OUT_VENDOR)/etc/sysconfig/qti_whitelist.xml
+    $(LOCAL_PATH)/configs/privapp-permissions-qti.xml:system/etc/permissions/privapp-permissions-qti.xml \
+    $(LOCAL_PATH)/configs/qti_whitelist.xml:system/etc/sysconfig/qti_whitelist.xml
 
 # QMI
 PRODUCT_PACKAGES += \
@@ -441,6 +440,3 @@ PRODUCT_COPY_FILES += \
 
 # Call the proprietary setup
 $(call inherit-product, vendor/xiaomi/msm8998-common/msm8998-common-vendor.mk)
-
-# Get kernel-headers
-$(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
