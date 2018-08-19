@@ -38,6 +38,7 @@ on init
 
 on post-fs
     chmod 0755 /sys/kernel/debug/tracing
+    chown system system /sys/class/timed_output/vibrator/vtg_level
 
 on post-fs-data
     mkdir /data/vendor/misc 01771 system system
@@ -96,9 +97,9 @@ on post-fs-data
     mkdir /data/dpm/nsrm 0771 system system
 
     # Create directory used by audio subsystem
-    #mkdir /data/vendor/misc/audio 0770 audio audio
-    #mkdir /data/vendor/misc/audio/acdbdata 0770 media audio
-    #mkdir /data/vendor/misc/audio/acdbdata/delta 0770 media audio
+    mkdir /data/vendor/misc/audio 0770 audio audio
+    mkdir /data/vendor/misc/audio/acdbdata 0770 media audio
+    mkdir /data/vendor/misc/audio/acdbdata/delta 0770 media audio
 
     # Create directory used by audio subsystem
     mkdir /data/vendor/audio 0770 audio audio
@@ -276,6 +277,7 @@ service vendor.rmt_storage /vendor/bin/rmt_storage
 service vendor.tftp_server /vendor/bin/tftp_server
     class core
     user root
+    group root system
 
 service vendor.start_hci_filter /vendor/bin/wcnss_filter
     class late_start
@@ -394,3 +396,15 @@ service vendor.time_daemon /vendor/bin/time_daemon
     user root
     group root
     writepid /dev/cpuset/system-background/tasks
+
+# b/70518189 vDSO experiments
+on property:sys.vdso=*
+   write /sys/module/vdso/parameters/enable_32 1
+   write /sys/module/vdso/parameters/enable_64 1
+on property:sys.vdso=false
+   write /sys/module/vdso/parameters/enable_32 0
+   write /sys/module/vdso/parameters/enable_64 0
+on property:sys.vdso=64
+   write /sys/module/vdso/parameters/enable_32 0
+on property:sys.vdso=32
+   write /sys/module/vdso/parameters/enable_64 0

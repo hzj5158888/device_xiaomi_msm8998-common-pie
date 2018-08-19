@@ -38,6 +38,7 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 #include <string.h>
+#include <arpa/inet.h>
 #include "IPACM_CmdQueue.h"
 #include "IPACM_Log.h"
 #include "IPACM_Iface.h"
