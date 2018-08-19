@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#define LOG_TAG "android.hardware.power@1.2-service.wahoo-libperfmgr"
+#define LOG_TAG "android.hardware.power@1.2-service.sagit-libperfmgr"
 
 #include <android/log.h>
 #include <hidl/HidlTransportSupport.h>
@@ -34,7 +34,7 @@ using android::hardware::power::V1_2::IPower;
 using android::hardware::power::V1_2::implementation::Power;
 
 int main(int /* argc */, char** /* argv */) {
-    ALOGI("Power HAL Service 1.2 for Wahoo is starting");
+    ALOGI("Power HAL Service 1.2 for Sagit is starting");
 
     android::sp<IPower> service = new Power();
     if (service == nullptr) {
