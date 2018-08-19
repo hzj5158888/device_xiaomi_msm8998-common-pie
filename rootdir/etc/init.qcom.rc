@@ -263,13 +263,6 @@ service vendor.dpmQmiMgr /vendor/bin/dpmQmiMgr
     user system
     group system
 
-service vendor.perfd /vendor/bin/perfd
-    class main
-    user root
-    group root readproc system
-    socket perfd seqpacket 0666 root system
-    disabled
-
 service vendor.irsc_util /vendor/bin/irsc_util "/vendor/etc/sec_config"
     class core
     user root
