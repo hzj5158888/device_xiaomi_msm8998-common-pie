@@ -55,7 +55,7 @@ Power::Power() :
         mVRModeOn(false),
         mSustainedPerfModeOn(false),
         mEncoderModeOn(false) {
-    mInteractionHandler.Init();
+    //mInteractionHandler.Init();
 
     std::string state = android::base::GetProperty(kPowerHalStateProp, "");
     if (state == "VIDEO_ENCODE") {
@@ -101,7 +101,7 @@ Return<void> Power::powerHint(PowerHint_1_0 hint, int32_t data) {
             if (mVRModeOn || mSustainedPerfModeOn) {
                 ALOGV("%s: ignoring due to other active perf hints", __func__);
             } else {
-                mInteractionHandler.Acquire(data);
+                //mInteractionHandler.Acquire(data);
             }
             break;
         case PowerHint_1_0::VIDEO_ENCODE:
