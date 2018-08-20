@@ -209,8 +209,11 @@ PRODUCT_PACKAGES += \
 
 # Fingerprint sensor
 PRODUCT_PACKAGES += \
-    android.hardware.biometrics.fingerprint@2.1 \
     android.hardware.biometrics.fingerprint@2.1-service.xiaomi_msm8998
+
+# Need for goodix fp hal
+PRODUCT_PACKAGES += \
+    libpowermanager.vendor
 
 # For config.fs
 PRODUCT_PACKAGES += \
@@ -441,9 +444,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     wificond \
     wifilogd \
-    android.hardware.wifi@1.0 \
-    android.hardware.wifi@1.1 \
-    android.hardware.wifi@1.2 \
     android.hardware.wifi@1.0-service
 
 PRODUCT_COPY_FILES += \

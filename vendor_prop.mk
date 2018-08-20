@@ -91,7 +91,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Enable CameraHAL perfd usage
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.perfd.enable=false
+    persist.camera.perfd.enable=true
 
 # Enable Gcam FD Ensemble
 PRODUCT_PROPERTY_OVERRIDES += \
