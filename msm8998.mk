@@ -149,8 +149,6 @@ PRODUCT_PACKAGES += \
 
 # Camera shim
 PRODUCT_PACKAGES += \
-    libminikin \
-    libcamshim.vendor \
     libicuuc.vendor
 
 # Camera
