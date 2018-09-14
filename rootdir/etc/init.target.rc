@@ -56,7 +56,7 @@ on init
     write /sys/devices/system/cpu/cpu6/online 1
     write /sys/devices/system/cpu/cpu7/online 1
 
-    # Disable thermal bcl hotplug to switch governor
+    # disable thermal bcl hotplug for thermal
     write /sys/module/msm_thermal/core_control/enabled 0
 
     # configure governor settings for little cluster
@@ -73,9 +73,6 @@ on init
     write /dev/stune/foreground/schedtune.prefer_idle 1
     write /dev/stune/top-app/schedtune.boost 10
     write /dev/stune/top-app/schedtune.prefer_idle 1
-
-    # Enable thermal and BCL hotplug
-    write /sys/module/msm_thermal/core_control/enabled 1
 
     # Disable retention
     write /sys/module/lpm_levels/system/pwr/cpu0/ret/idle_enabled N
@@ -106,7 +103,6 @@ on boot
 
 on fs
     mount_all /vendor/etc/fstab.qcom --early
-    swapon_all /vendor/etc/fstab.qcom
 
     restorecon_recursive /persist
     mkdir /persist/data 0700 system system
@@ -170,6 +166,9 @@ on property:sys.boot_completed=1
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/camera-daemon/cpus 0-3
 
+    # Enable oom_reaper
+    write /sys/module/lowmemorykiller/parameters/oom_reaper 1
+
     # Create cgroup mount points for process groups
     mkdir /dev/cpuctl
     mount cgroup none /dev/cpuctl cpu
@@ -185,6 +184,12 @@ on property:sys.boot_completed=1
     chmod 0666 /dev/cpuctl/bg_non_interactive/tasks
 
     start vendor.qcom-post-boot
+
+on property:sys.post_boot.parsed=1
+    # Setup permission for powerHAL
+    chown system system /sys/devices/soc/soc:qcom,cpubw/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_trigger_count
+    chown system system /sys/devices/soc/soc:qcom,cpubw/devfreq/soc:qcom,cpubw/bw_hwmon/hist_memory
+    chown system system /sys/devices/soc/soc:qcom,cpubw/devfreq/soc:qcom,cpubw/bw_hwmon/hyst_length
 
 on charger
     write /sys/class/input/input0/enabled 0
@@ -299,13 +304,6 @@ service vendor.imsrcsservice /vendor/bin/imsrcsd
 on property:vendor.ims.DATA_DAEMON_STATUS=1
     start vendor.ims_rtp_daemon
     start vendor.imsrcsservice
-
-#service vendor.energy-awareness /vendor/bin/energy-awareness
-    #class main
-    #user root
-    #group system
-    #oneshot
-    #writepid /dev/cpuset/system-background/tasks
 
 service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
     class main

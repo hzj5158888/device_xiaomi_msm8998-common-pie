@@ -68,35 +68,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
     vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,com.miui.cit,org.lineageos.snap \
     vidc.enc.dcvs.extra-buff-count=2
 
-# camera gyro and laser sensor
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.gyro.android=20 \
-    persist.camera.tof.direct=1 \
-    persist.camera.max.previewfps=60 \
-    persist.camera.sensor.hdr=2
-
-# camera TNR controls
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.tnr.video=1 \
-
-# Enable camera EIS3.0
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.is_type=5 \
-    persist.camera.gzoom.at=0 \
-    persist.camera.llv.fuse=2
-
-# Enable camera ae saturation stats
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.saturationext=1
-
-# Enable CameraHAL perfd usage
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.perfd.enable=true
-
-# Enable Gcam FD Ensemble
-PRODUCT_PROPERTY_OVERRIDES += \
-    persist.camera.gcam.fd.ensemble=1
-
 # CNE
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.cne.feature=1

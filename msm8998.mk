@@ -17,16 +17,10 @@
 # Treble
 $(call inherit-product, $(SRC_TARGET_DIR)/product/product_launched_with_n_mr1.mk)
 
-# Get kernel-headers
-#$(call inherit-product, hardware/qcom/msm8998/msm8998.mk)
-
+# Qcom Hals
+QCOM_BOARD_PLATFORMS += msm8998
 MSM_VIDC_TARGET_LIST := msm8998
 MASTER_SIDE_CP_TARGET_LIST := msm8998
-
-# Hardware
-SRC_MEDIA_HAL_DIR := hardware/qcom/media/msm8998
-SRC_DISPLAY_HAL_DIR := hardware/qcom/display/msm8998
-SRC_CAMERA_HAL_DIR := hardware/qcom/camera/msm8998
 
 # Overlay
 DEVICE_PACKAGE_OVERLAYS += \
@@ -45,6 +39,7 @@ PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
     frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml \
+    frameworks/native/data/etc/android.software.device_id_attestation.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.device_id_attestation.xml \
     frameworks/native/data/etc/android.hardware.location.gps.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.location.gps.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.nfc.xml \
@@ -154,7 +149,8 @@ PRODUCT_PACKAGES += \
 # Camera
 PRODUCT_PACKAGES += \
     android.hardware.camera.provider@2.4-impl:32 \
-    android.hardware.camera.provider@2.4-service
+    android.hardware.camera.provider@2.4-service \
+    camera.device@3.2-impl
 
 # Bluetooth
 PRODUCT_PACKAGES += \
@@ -200,7 +196,7 @@ PRODUCT_PACKAGES += \
     Email \
     Calendar
 
-# DRM
+# DRM HAL
 PRODUCT_PACKAGES += \
     android.hardware.drm@1.0-impl:32 \
     android.hardware.drm@1.0-service
@@ -230,7 +226,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_PACKAGES += \
     android.hardware.gnss@1.0-impl-qti \
-    android.hardware.gnss@1.0-service-qti \
+    android.hardware.gnss@1.0-service-qti
 
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/gps/flp.conf:$(TARGET_COPY_OUT_VENDOR)/etc/flp.conf \
@@ -429,15 +425,10 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     ipacm \
     IPACM_cfg.xml \
-    liboffloadhal \
-    libipanat \
-    libnfnetlink \
-    libnetfilter_conntrack \
     libwpa_client \
     hostapd \
     hostapd_cli \
     readmac \
-    libnl_2 \
     wpa_supplicant \
     wpa_supplicant.conf
 
