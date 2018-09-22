@@ -109,9 +109,11 @@ static int sysfs_write(char *path, char *s)
     close(fd);
     return ret;
 }
+
 void __attribute__((weak)) set_device_specific_feature(__unused feature_t feature, __unused int state)
 {
 }
+
 void set_feature(feature_t feature, int state) {
     switch (feature) {
         case POWER_FEATURE_DOUBLE_TAP_TO_WAKE:
@@ -157,7 +159,6 @@ static int parse_stats(const char **params, size_t params_size,
 
     return 0;
 }
-
 
 static int extract_stats(uint64_t *list, char *file,
                          struct stat_pair *map, size_t map_size) {

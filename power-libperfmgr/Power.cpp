@@ -55,7 +55,7 @@ Power::Power() :
         mVRModeOn(false),
         mSustainedPerfModeOn(false),
         mEncoderModeOn(false) {
-    //mInteractionHandler.Init();
+    mInteractionHandler.Init();
 
     std::string state = android::base::GetProperty(kPowerHalStateProp, "");
     if (state == "VIDEO_ENCODE") {

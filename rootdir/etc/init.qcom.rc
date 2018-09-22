@@ -138,6 +138,7 @@ on post-fs-data
 
     # NFC local data and nfcee xml storage
     mkdir /data/vendor/nfc 0770 nfc nfc
+    mkdir /data/vendor/nfc/param 0770 nfc nfc
 
     # Mark the copy complete flag to not completed
     write /data/vendor/radio/copy_complete 0
@@ -379,7 +380,7 @@ service vendor.panel-info /vendor/bin/init.panel_info.sh
     user root
     oneshot
 
-service ril-daemon2 /vendor/bin/hw/rild -c 2
+service vendor.ril-daemon2 /vendor/bin/hw/rild -c 2
     class main
     socket rild2 stream 660 root radio
     socket rild-debug2 stream 660 radio system
