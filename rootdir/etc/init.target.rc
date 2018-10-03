@@ -110,6 +110,9 @@ on fs
     mkdir /persist/audio 0755 system system
     mkdir /persist/display 0770 system graphics
 
+   # for android.hardware.health@2.0-service.sagit cycle count backup
+    mkdir /persist/battery 0700 system system
+
     # Start HW service manager early
     start hwservicemanager
 
@@ -138,6 +141,7 @@ on late-fs
     setprop sys.io.scheduler "cfq"
 
     mount_all /vendor/etc/fstab.qcom --late
+    swapon_all /vendor/etc/fstab.qcom
 
 on post-fs-data
     mkdir /tombstones/modem 0771 system system
@@ -166,9 +170,6 @@ on property:sys.boot_completed=1
     write /dev/cpuset/system-background/cpus 0-3
     write /dev/cpuset/restricted/cpus 0-3
     write /dev/cpuset/camera-daemon/cpus 0-3
-
-    # Enable oom_reaper
-    write /sys/module/lowmemorykiller/parameters/oom_reaper 1
 
     # Create cgroup mount points for process groups
     mkdir /dev/cpuctl
@@ -311,6 +312,6 @@ service vendor.hvdcp_opti /vendor/bin/hvdcp_opti
 
 service vendor.readmac /vendor/bin/readmac
     class main
-    user root
-    group oem_2901
+    user system
+    group system net_raw
     oneshot
