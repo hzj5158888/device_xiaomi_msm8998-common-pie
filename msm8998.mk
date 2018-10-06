@@ -231,6 +231,9 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.health@2.0-service.sagit
 
+DEVICE_FRAMEWORK_MANIFEST_FILE += \
+    system/libhidl/vintfdata/manifest_healthd_exclude.xml
+
 # HIDL
 PRODUCT_PACKAGES += \
     android.hidl.base@1.0 \
