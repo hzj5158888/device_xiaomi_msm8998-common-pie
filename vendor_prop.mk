@@ -31,7 +31,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.audio.fluence.voicerec=false \
     persist.vendor.audio.ras.enabled=false \
     persist.vendor.bt.a2dp_offload_cap=sbc-aptx-aptxhd-aac \
-    ro.config.vc_call_vol_steps=11 \
+    ro.af.client_heap_size_kbyte=7168 \
+    ro.config.media_vol_steps=25 \
+    ro.config.vc_call_vol_steps=7 \
     ro.vendor.audio.sdk.fluencetype=fluence \
     ro.vendor.audio.sdk.ssr=false \
     vendor.audio.dolby.ds2.enabled=false \
@@ -56,16 +58,18 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
     qcom.bluetooth.soc=cherokee \
-    ro.bluetooth.hfp.ver=1.6
+    ro.vendor.bluetooth.emb_wp_mode=false \
+    ro.vendor.bluetooth.wipower=false
 
 # Camera
 PRODUCT_PROPERTY_OVERRIDES += \
+    persist.camera.eis.enable=1 \
     persist.camera.HAL3.enabled=1 \
     persist.camera.set.afd=4 \
     persist.camera.xm.green.b=0.96 \
     persist.camera.xm.green.r=0.97 \
     persist.dualcam.lpm.enable=1 \
-    vendor.camera.aux.packagelist=org.codeaurora.snapcam,com.android.camera,com.miui.cit \
+    vendor.camera.aux.packagelist=com.android.camera,com.google.android.GoogleCameraTele,com.google.android.LECameraPlus \
     vidc.enc.dcvs.extra-buff-count=2
 
 # CNE
@@ -140,18 +144,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
     persist.data.mode=concurrent \
     persist.radio.apm_sim_not_pwdn=1 \
-    persist.radio.dynamic_sar=false \
     persist.radio.multisim.config=dsds \
     persist.rmnet.data.enable=true \
     persist.vendor.ims.dropset_feature=0 \
     persist.vendor.radio.add_power_save=1 \
     persist.vendor.radio.custom_ecc=1 \
     persist.vendor.radio.force_on_dc=true \
+    persist.vendor.radio.data_ltd_sys_ind=1 \
     persist.vendor.radio.rat_on=combine \
     persist.vendor.radio.redir_party_num=1 \
     persist.vendor.radio.report_codec=1 \
     persist.vendor.radio.sib16_support=1 \
-    persist.vendor.radio.force_on_dc=true \
     persist.radio.custom_ecc=1 \
     persist.radio.data_con_rprt=1 \
     persist.radio.data_ltd_sys_ind=1 \
@@ -216,3 +219,10 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Wlan
 PRODUCT_PROPERTY_OVERRIDES += \
     wifi.interface=wlan0
+
+# Early phase offset configuration for SurfaceFlinger (b/75985430)
+PRODUCT_PROPERTY_OVERRIDES += \
+    debug.sf.early_phase_offset_ns=500000 \
+    debug.sf.early_app_phase_offset_ns=500000 \
+    debug.sf.early_gl_phase_offset_ns=3000000 \
+    debug.sf.early_gl_app_phase_offset_ns=15000000
