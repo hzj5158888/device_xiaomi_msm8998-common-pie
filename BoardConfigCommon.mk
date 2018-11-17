@@ -55,6 +55,7 @@ BOARD_KERNEL_CMDLINE += user_debug=31 msm_rtb.filter=0x37 ehci-hcd.park=3
 BOARD_KERNEL_CMDLINE += service_locator.enable=1
 BOARD_KERNEL_CMDLINE += swiotlb=2048
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE += firmware_class.path=/vendor/firmware_mnt/image
 
 # Platform
 TARGET_BOARD_PLATFORM := msm8998
@@ -165,7 +166,6 @@ USE_DEVICE_SPECIFIC_GPS := true
 DEVICE_MANIFEST_FILE := device/xiaomi/msm8998-common/manifest.xml
 DEVICE_MATRIX_FILE := device/xiaomi/msm8998-common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/xiaomi/msm8998-common/framework_manifest.xml
-#DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := device/xiaomi/msm8998-common/device_framework_matrix.xml
 
 # Partitions
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
@@ -177,6 +177,8 @@ BOARD_VENDORIMAGE_PARTITION_SIZE := 872415232
 BOARD_VENDORIMAGE_FILE_SYSTEM_TYPE := ext4
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
 TARGET_COPY_OUT_VENDOR := vendor
+TARGET_USERIMAGES_USE_EXT4 := true
+TARGET_USERIMAGES_USE_F2FS := true
 TARGET_USES_MKE2FS := true
 
 # Power
@@ -189,10 +191,6 @@ BOARD_USES_QCOM_HARDWARE := true
 TARGET_RECOVERY_FSTAB := device/xiaomi/msm8998-common/rootdir/etc/fstab.qcom
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
 TARGET_USERIMAGES_USE_EXT4 := true
-
-# Releasetools
-#TARGET_RECOVERY_UPDATER_LIBS := librecovery_updater_xiaomi
-#TARGET_RELEASETOOLS_EXTENSIONS := device/xiaomi/msm8998-common
 
 # RIL
 PROTOBUF_SUPPORTED := true
@@ -210,8 +208,6 @@ WITH_DEXPREOPT := true
 
 # Treble
 BOARD_PROPERTY_OVERRIDES_SPLIT_ENABLED := true
-#BOARD_VNDK_RUNTIME_DISABLE := true
-#BOARD_VNDK_VERSION := current
 PRODUCT_FULL_TREBLE_OVERRIDE := true
 
 # Vendor init
