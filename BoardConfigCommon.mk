@@ -155,6 +155,9 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 VSYNC_EVENT_PHASE_OFFSET_NS := 2000000
 SF_VSYNC_EVENT_PHASE_OFFSET_NS := 6000000
 
+# DRM
+TARGET_ENABLE_MEDIADRM_64 := true
+
 # Filesystem
 TARGET_FS_CONFIG_GEN := device/xiaomi/msm8998-common/config.fs
 
@@ -162,6 +165,7 @@ TARGET_FS_CONFIG_GEN := device/xiaomi/msm8998-common/config.fs
 USE_DEVICE_SPECIFIC_GPS := true
 
 # HIDL
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE := device/xiaomi/msm8998-common/vendor_framework_compatibility_matrix.xml
 DEVICE_MANIFEST_FILE := device/xiaomi/msm8998-common/manifest.xml
 DEVICE_MATRIX_FILE := device/xiaomi/msm8998-common/compatibility_matrix.xml
 DEVICE_FRAMEWORK_MANIFEST_FILE := device/xiaomi/msm8998-common/framework_manifest.xml
