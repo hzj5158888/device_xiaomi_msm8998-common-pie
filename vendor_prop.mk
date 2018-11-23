@@ -55,7 +55,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Bluetooth
 PRODUCT_PROPERTY_OVERRIDES += \
-    qcom.bluetooth.soc=cherokee \
+    vendor.qcom.bluetooth.soc=cherokee \
     ro.vendor.bluetooth.emb_wp_mode=false \
     ro.vendor.bluetooth.wipower=false
 
@@ -140,10 +140,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.data.mode=concurrent \
-    persist.radio.apm_sim_not_pwdn=1 \
     persist.radio.multisim.config=dsds \
     persist.rmnet.data.enable=true \
+    persist.vendor.data.mode=concurrent \
     persist.vendor.ims.dropset_feature=0 \
     persist.vendor.radio.add_power_save=1 \
     persist.vendor.radio.custom_ecc=1 \
@@ -153,6 +152,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.vendor.radio.redir_party_num=1 \
     persist.vendor.radio.report_codec=1 \
     persist.vendor.radio.sib16_support=1 \
+    persist.vendor.radio.apm_sim_not_pwdn=1 \
     persist.radio.custom_ecc=1 \
     persist.radio.data_con_rprt=1 \
     persist.radio.data_ltd_sys_ind=1 \
@@ -176,7 +176,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
     rild.libpath=/vendor/lib64/libril-wrapper.so \
     ro.telephony.default_cdma_sub=0 \
     ro.telephony.default_network=22,22 \
-    ro.use_data_netmgrd=true \
+    ro.vendor.use_data_netmgrd=true \
     telephony.lteOnCdmaDevice=1 \
     vendor.voice.path.for.pcm.voip=true
 
@@ -199,7 +199,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Time services
 PRODUCT_PROPERTY_OVERRIDES += \
-    persist.delta_time.enable=true
+    persist.vendor.delta_time.enable=true
 
 # Vendor security patch level
 PRODUCT_PROPERTY_OVERRIDES += \
