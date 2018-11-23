@@ -430,9 +430,15 @@
         </interface>
     </hal>
     <hal format="hidl">
-<<<<<<< HEAD
         <name>vendor.qti.data.factory</name>
-=======
+        <transport>hwbinder</transport>
+        <version>1.0</version>
+        <interface>
+            <name>IFactory</name>
+            <instance>default</instance>
+        </interface>
+    </hal>
+    <hal format="hidl">
         <name>vendor.qti.gnss</name>
         <transport>hwbinder</transport>
         <version>1.2</version>
@@ -445,25 +451,6 @@
         <name>vendor.qti.gnss</name>
         <transport>hwbinder</transport>
         <version>2.0</version>
-        <interface>
-            <name>ILocHidlGnss</name>
-            <instance>gnss_vendor</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.hardware.alarm</name>
->>>>>>> 5327680a... msm8998-common: manifest: add vendor.qti.gnss 2.0
-        <transport>hwbinder</transport>
-        <version>1.0</version>
-        <interface>
-            <name>IFactory</name>
-            <instance>default</instance>
-        </interface>
-    </hal>
-    <hal format="hidl">
-        <name>vendor.qti.gnss</name>
-        <transport>hwbinder</transport>
-        <version>1.2</version>
         <interface>
             <name>ILocHidlGnss</name>
             <instance>gnss_vendor</instance>
